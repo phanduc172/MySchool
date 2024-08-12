@@ -8,11 +8,7 @@
       header-tag="header"
     >
       <b-form @submit.prevent="onSubmit">
-        <b-form-group
-          id="accountGroup"
-          label="Tài khoản:"
-          label-for="accountInput"
-        >
+        <b-form-group id="accountGroup" label="Tài khoản:" label-for="accountInput">
           <b-form-input
             id="accountInput"
             v-model="account"
@@ -39,43 +35,26 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  data() {
-    return {
-      account: '',
-      password: '',
-    };
+  computed: {
+    ...mapGetters('auth',['account','password'])
   },
   methods: {
-    ...mapActions(['handleLogin']),
+    ...mapActions('auth', ['handleLogin']),
     async onSubmit() {
       try {
-        const response = await axios.get('http://localhost:3000/api/nguoi-dung');
-        const users = response.data;
-
-        const user = users.find(user => 
-          user.tenTaiKhoan === this.account && user.matKhau === this.password
-        );
-
-        if (user) {
-          await this.handleLogin(user);
-          console.log(user.hoSo.hoTen)
-          this.$router.push('/dashboard');
-        } else {
-          alert('Tài khoản hoặc mật khẩu không đúng');
-        }
+        const user = await this.handleLogin({ account: this.account, password: this.password });
+        console.log(user.hoSo.hoTen);
+        this.$router.push('/dashboard');
       } catch (error) {
-        console.error('Lỗi khi đăng nhập:', error);
-        alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+        alert(error.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.');
       }
     },
   },
 };
 </script>
-
 
 <style scoped>
 </style>

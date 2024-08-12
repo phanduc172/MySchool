@@ -6,13 +6,13 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-          <b-nav-item to="/dashboard">Dashboard</b-nav-item>
-        </b-navbar-nav>
+        <b-nav-item to="/dashboard">Dashboard</b-nav-item>
+      </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown v-if="isLoggedIn" right>
           <template #button-content>
-            <em class="mx-2">{{ user.hoSo.hoTen }}</em> 
+            <em class="mx-2">{{ user.hoSo.hoTen }}</em>
           </template>
           <b-dropdown-item to="/profile">Hồ sơ</b-dropdown-item>
           <b-dropdown-item href="#" @click="logout">Đăng xuất</b-dropdown-item>
@@ -29,21 +29,16 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
-  methods: {
-    logout() {
-      this.$emit('logout');
-    },
-  },
   computed: {
-    ...mapState(['isLoggedIn', 'user'])
+    ...mapState('auth', ['isLoggedIn', 'user']) // Đảm bảo namespace đúng
   },
   methods: {
-    ...mapActions(['handleLogin', 'handleLogout']),
+    ...mapActions('auth', ['handleLogout']), // Đảm bảo namespace đúng
     async logout() {
       await this.handleLogout();
       this.$router.push('/login');
-    },
-  },
+    }
+  }
 };
 </script>
 

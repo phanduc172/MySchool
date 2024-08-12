@@ -1,13 +1,13 @@
-import state from './state'
-import getters from './getters'
-import mutations from './mutations'
-import actions from './actions'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import auth from './modules/auth';
 
-const storeConfig = {
-    state,
-    getters,
-    mutations,
-    actions,
-}
+Vue.use(Vuex);
 
-export default storeConfig;
+const store = new Vuex.Store({
+  modules: {
+    auth,
+  }
+});
+
+export default store;
