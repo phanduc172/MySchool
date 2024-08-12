@@ -14,27 +14,27 @@ const router = new VueRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../components/Login.vue')
+      component: () => import('../resources/Login.vue')
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../components/Register.vue')
+      component: () => import('../resources/Register.vue')
     },
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('../components/Dashboard.vue')
+      component: () => import('../resources/Dashboard.vue')
     },
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../components/UserProfile.vue')
+      component: () => import('../resources/UserProfile.vue')
     },
     {
       path: '/teachers',
       name: 'teachers',
-      component: () => import('../components/Teacher.vue')
+      component: () => import('../resources/Teacher.vue')
     },
   ]
 })

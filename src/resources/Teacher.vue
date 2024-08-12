@@ -5,6 +5,12 @@
         <b-img v-if="data.item.avatar" :src="data.item.avatar" rounded="circle" width="50" height="50" />
         <span v-else>No Avatar</span>
       </template>
+      <template v-slot:cell(actions)="data">
+          <b-button-group>
+            <b-button variant="info" @click="editStudent(data.item)"><b-icon icon="pencil"></b-icon></b-button>
+            <b-button variant="danger" @click="deleteStudent(data.item)"> <b-icon icon="trash"></b-icon></b-button>
+          </b-button-group>
+        </template>
     </b-table>
   </b-card>
 </template>
@@ -24,7 +30,8 @@ export default {
         { key: 'lopPhuTrach', label: 'Lớp Phụ Trách' },
         { key: 'soNamKinhNghiem', label: 'Số Năm Kinh Nghiệm' },
         { key: 'diaChi', label: 'Địa Chỉ' },
-        { key: 'soDienThoai', label: 'Số Điện Thoại' }
+        { key: 'soDienThoai', label: 'Số Điện Thoại' },
+        { key: 'actions', label: 'Hành động' },
       ]
     };
   },

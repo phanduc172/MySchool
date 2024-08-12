@@ -9,13 +9,13 @@ import { BootstrapVue, IconsPlugin} from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-import Dashboard from './components/Dashboard.vue'
-import Login from './components/Login.vue'
+import Dashboard from './resources/Dashboard.vue'
+import Login from './resources/Login.vue'
 import Navbar from './components/Navbar.vue'
-import Register from './components/Register.vue'
-import Student from './components/Student.vue'
-import Teacher from './components/Teacher.vue'
-import UserProfile from './components/UserProfile.vue'
+import Register from './resources/Register.vue'
+import Student from './resources/Student.vue'
+import Teacher from './resources/Teacher.vue'
+import UserProfile from './resources/UserProfile.vue'
 
 import storeConfig from './store';
 

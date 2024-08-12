@@ -13,8 +13,8 @@
 
 <script>
 
-import Teacher from './Teacher.vue';
-import Student from './Student.vue';
+import Teacher from '../resources/Teacher.vue';
+import Student from '../resources/Student.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {

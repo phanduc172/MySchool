@@ -14,7 +14,7 @@
           <template #button-content>
             <em class="mx-2">{{ user.hoSo.hoTen }}</em> 
           </template>
-          <b-dropdown-item href="/profile">Profile</b-dropdown-item>
+          <b-dropdown-item to="/profile">Hồ sơ</b-dropdown-item>
           <b-dropdown-item href="#" @click="logout">Đăng xuất</b-dropdown-item>
         </b-nav-item-dropdown>
 
