@@ -1,36 +1,36 @@
 <template>
-    <b-container class="my-4" style="padding-top: 80px;">
-      <b-row>
-        <b-col lg="12">
-          <teacher-list />
-        </b-col>
-      </b-row>
-    </b-container>
-  </template>
+  <b-container class="my-4" fluid>
+    <b-row>
+      <b-col lg="12">
+        <teacher-list />
+      </b-col>
+    </b-row>
+  </b-container>
+</template>
 
-  <script>
-  
-  import TeacherList from '../components/TeacherList.vue';
-  import { mapActions, mapMutations, mapState } from 'vuex';
-  
-  export default {
-    data() {
-      return {
-      };
-    },
-    components: {
-        TeacherList,
-    },
-    computed: {
-      ...mapState([])
-    },
-    methods: {
-      ...mapMutations([]),
-      ...mapActions([]),
-    },
-  };
-  </script>
-  
-  <style scoped>
-  </style>
+<script>
+
+import TeacherList from '../components/TeacherList.vue';
+import { mapActions, mapMutations, mapState } from 'vuex';
+
+export default {
+  data() {
+    return {
+    };
+  },
+  components: {
+      TeacherList,
+  },
+  computed: {
+    ...mapState([])
+  },
+  methods: {
+    ...mapMutations([]),
+    ...mapActions([]),
+  },
+};
+</script>
+
+<style scoped>
+</style>
   

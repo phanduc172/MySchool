@@ -6,53 +6,48 @@
         <span v-else>No Avatar</span>
       </template>
       <template v-slot:cell(actions)="data">
-          <b-button-group>
-            <b-button variant="info" @click="editStudent(data.item)"><b-icon icon="pencil"></b-icon></b-button>
-            <b-button variant="danger" @click="deleteStudent(data.item)"> <b-icon icon="trash"></b-icon></b-button>
-          </b-button-group>
-        </template>
+        <b-button-group>
+          <b-button variant="info" @click="editTeacher(data.item)"><b-icon icon="pencil"></b-icon></b-button>
+          <b-button variant="danger" @click="deleteTeacher(data.item.id)"><b-icon icon="trash"></b-icon></b-button>
+        </b-button-group>
+      </template>
     </b-table>
   </b-card>
 </template>
 
 <script>
-import axios from 'axios';
-import { API_ENDPOINTS } from '@/api/api';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  data() {
-    return {
-      teachers: [],
-      fields: [
-        { key: 'ten', label: 'Tên' },
-        { key: 'ngaySinh', label: 'Ngày Sinh' },
-        { key: 'avatar', label: 'Ảnh đại diện' },
-        { key: 'chuyenMon', label: 'Chuyên Môn' },
-        { key: 'lopPhuTrach', label: 'Lớp Phụ Trách' },
-        { key: 'soNamKinhNghiem', label: 'Số Năm Kinh Nghiệm' },
-        { key: 'diaChi', label: 'Địa Chỉ' },
-        { key: 'soDienThoai', label: 'Số Điện Thoại' },
-        { key: 'actions', label: 'Hành động' },
-      ]
-    };
+  computed: {
+    ...mapState('teacher', ['teachers']),
+    fields() {
+      return [
+        { key: 'ten', label: 'Tên', thStyle: 'width: 150px;' },
+        { key: 'ngaySinh', label: 'Ngày sinh', thStyle: 'width: 120px;' },
+        { key: 'avatar', label: 'Ảnh đại diện', thStyle: 'width: 120px;' },
+        { key: 'chuyenMon', label: 'Chuyên môn', thStyle: 'width: 120px;' },
+        { key: 'lopPhuTrach', label: 'Lớp phụ trách', thStyle: 'width: 120px;' },
+        { key: 'soNamKinhNghiem', label: 'Kinh nghiệm', thStyle: 'width: 120px;' },
+        { key: 'diaChi', label: 'Địa chỉ', thStyle: 'width: 220px;' },
+        { key: 'soDienThoai', label: 'Số điện thoại', thStyle: 'width: 120px;' },
+        { key: 'actions', label: 'Hành động' }
+      ];
+    }
   },
   methods: {
-    async fetchData() {
-      try {
-        const response = await axios.get(API_ENDPOINTS.GIAO_VIEN);
-        this.teachers = response.data;
-        // console.log("Dữ liệu giáo viên:", this.teachers)
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu:", error);
-      }
+    ...mapActions('teacher', ['fetchTeachers', 'deleteTeacher']),
+    async editTeacher(teacher) {
+      console.log('Edit teacher:', teacher);
+      // Add logic to edit teacher
     }
   },
   created() {
-    this.fetchData();
+    this.fetchTeachers();
   }
 };
 </script>
 
 <style scoped>
-
+/* Add custom styles here */
 </style>
