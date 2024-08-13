@@ -2,10 +2,13 @@
   <b-container class="my-4" style="padding-top: 80px;">
     <b-row>
       <b-col lg="12">
-        <teacher/>
+        <teacher-list/>
       </b-col>
       <b-col lg="12" class="mt-5">
-        <student />
+        <student-list />
+      </b-col>
+      <b-col lg="12" class="mt-5">
+        <user-list />
       </b-col>
     </b-row>
   </b-container>
@@ -13,8 +16,9 @@
 
 <script>
 
-import Teacher from '../resources/Teacher.vue';
-import Student from '../resources/Student.vue';
+import TeacherList from '../components/TeacherList.vue';
+import StudentList from '../components/StudentList.vue';
+import UserList from '../components/UserList.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
@@ -25,7 +29,7 @@ export default {
     };
   },
   components: {
-    Teacher,Student,
+    TeacherList,StudentList,UserList,
   },
   computed: {
     ...mapState([])

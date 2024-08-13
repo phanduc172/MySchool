@@ -1,20 +1,25 @@
 <template>
-  <div style="padding: 100px">
-    <h1>Profile</h1>
-    <h5>{{ name }}</h5>
-    <h5>{{ age }}</h5>
-  </div>
+  <b-container fluid="md" class="my-4" style="padding-top: 80px">
+    <b-row>
+      <student-menu></student-menu>
+      <info-detail></info-detail>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
+import StudentMenu from "../components/StudentMenu.vue";
+import InfoDetail from "../resources/InfoDetail.vue";
 
 export default {
-  computed: {
-    ...mapGetters('auth', ['name', 'age',])
+  components: {
+    StudentMenu,InfoDetail,
   },
-  methods: {
-  }
+  computed: {
+    ...mapGetters("auth", ["name", "age"]),
+  },
+  methods: {},
 };
 </script>
 

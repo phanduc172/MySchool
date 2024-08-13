@@ -32,10 +32,15 @@ const router = new VueRouter({
       component: () => import('../resources/UserProfile.vue')
     },
     {
-      path: '/teachers',
-      name: 'teachers',
+      path: '/manager/teacher',
+      name: 'teacher',
       component: () => import('../resources/Teacher.vue')
     },
+    {
+      path: '/manager/student',
+      name: 'student',
+      component: () => import('../resources/Student.vue')
+    }     
   ]
 })
 

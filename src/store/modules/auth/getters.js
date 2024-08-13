@@ -1,6 +1,6 @@
 export default {
-    name: state => state.user ? state.user.hoSo.hoTen : '',
-    age: state => state.user ? state.user.hoSo.age : '',
-    account: state => state.account,
-    password: state => state.password,
+    isAdmin: (state) => state.vaiTro === 'admin',
+    isTeacher: (state) => state.vaiTro === 'teacher',
+    isStudent: (state) => state.vaiTro === 'student',
+    // user: (state) => state.user,
 };
