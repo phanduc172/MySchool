@@ -1,62 +1,72 @@
 <template>
-    <b-card title="Danh sách người dùng">
-      <b-table :items="users" :fields="fields" hover>
-        <template v-slot:cell(avatar)="data">
-          <b-img v-if="data.item.hoSo.avatar" :src="`/${data.item.hoSo.avatar}`" rounded="circle" width="50" height="50" />
-          <span v-else>No Avatar</span>
-        </template>
-        <template v-slot:cell(actions)="data">
-          <b-button-group>
-            <b-button variant="info" @click="editUser(data.item)"><b-icon icon="pencil"></b-icon></b-button>
-            <b-button variant="danger" @click="deleteUser(data.item)"><b-icon icon="trash"></b-icon></b-button>
-          </b-button-group>
-        </template>
-      </b-table>
-    </b-card>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  import { API_ENDPOINTS } from '@/api/api';
-  
-  export default {
-    data() {
-      return {
-        users: [],
-        fields: [
-          { key: 'tenTaiKhoan', label: 'Tài khoản' },
-          { key: 'hoSo.hoTen', label: 'Tên' },
-          { key: 'hoSo.ngaySinh', label: 'Ngày Sinh' },
-          { key: 'hoSo.avatar', label: 'Ảnh đại diện' },
-          { key: 'vaiTro', label: 'Vai trò' },
-          { key: 'actions', label: 'Hành động' },
-        ]
-      };
-    },
-    methods: {
-      async fetchData() {
-        try {
-          const response = await axios.get(API_ENDPOINTS.NGUOI_DUNG);
-          this.users = response.data;
-          // console.log("Dữ liệu người dùng:", this.users);
-        } catch (error) {
-          console.error("Lỗi khi lấy dữ liệu:", error);
-        }
-      },
-      editUser(user) {
-        // Xử lý chỉnh sửa người dùng
-      },
-      deleteUser(user) {
-        // Xử lý xóa người dùng
-      }
-    },
-    created() {
-      this.fetchData();
-    }
-  };
-  </script>
-  
-  <style scoped>
-  /* Thêm các kiểu CSS tùy chỉnh ở đây nếu cần */
-  </style>
-  
+  <b-card title="Danh sách người dùng">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th style="width: 100px;">Ảnh đại diện</th>
+            <th style="width: 150px;">Tên tài khoản</th>
+            <th style="width: 150px;">Họ tên</th>
+            <th style="width: 150px;">Ngày sinh</th>
+            <th style="width: 100px;">Vai trò</th>
+            <th style="width: 120px;">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.id">
+            <td class="text-center">
+              <b-img v-if="user.hoSo.avatar" :src="`/${user.hoSo.avatar}`" rounded="circle" style="width: 50px;" />
+              <span v-else>No Avatar</span>
+            </td>
+            <td>{{ user.tenTaiKhoan }}</td>
+            <td>{{ user.hoSo.hoTen }}</td>
+            <td class="text-center">{{ user.hoSo.ngaySinh }}</td>
+            <td class="text-center">{{ user.vaiTro }}</td>
+            <td class="text-center">
+              <b-button-group>
+                <b-button variant="info" @click="() => editUser(user)">
+                  <b-icon icon="pencil"></b-icon>
+                </b-button>
+                <b-button variant="danger" @click="() => confirmDeleteUser(user.id)">
+                  <b-icon icon="trash"></b-icon>
+                </b-button>
+              </b-button-group>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </b-card>
+</template>
+
+<script>
+import { mapState, mapActions } from "vuex";
+
+export default {
+  name: "User",
+  computed: {
+    ...mapState("user", ["users"]),
+  },
+  methods: {
+    ...mapActions("user", ["fetchUsers", "editUser", "confirmDeleteUser"]),
+  },
+  created() {
+    this.fetchUsers();
+  },
+};
+</script>
+
+<style scoped>
+.table th {
+  text-align: center;
+  font-weight: bold;
+}
+
+.table-responsive {
+  overflow-x: scroll;
+}
+
+.table td, .table th {
+  white-space: nowrap;
+}
+</style>

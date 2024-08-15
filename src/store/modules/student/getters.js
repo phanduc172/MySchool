@@ -1,4 +1,4 @@
 export default {
-    allStudents: state => state.students,
-  };
-  
+  students: state => state.students,
+  showBtnAdd: state => state.showBtnAdd,
+};

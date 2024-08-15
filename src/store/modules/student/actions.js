@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_ENDPOINTS } from '@/api/api';
+import { showDeleteConfirmation, showSuccessMessage } from '@/store/ui/ConfirmDelete';
 
 export default {
   async fetchStudents({ commit }) {
@@ -11,19 +12,47 @@ export default {
     }
   },
 
-  async deleteStudent({ commit, state }, studentId) {
+  async addStudent({ dispatch }, student) {
     try {
-      await axios.delete(`${API_ENDPOINTS.HOC_SINH}/${studentId}`);
-      commit('REMOVE_STUDENT', studentId);
-      alert('Xóa học sinh thành công!');
+      await axios.post(API_ENDPOINTS.HOC_SINH, student);
+      showSuccessMessage('Thêm học sinh thành công!');
+      dispatch('fetchStudents');
     } catch (error) {
-      console.error('Lỗi khi xóa học sinh:', error);
-      alert('Xóa học sinh thất bại!');
+      console.error('Lỗi khi thêm học sinh:', error);
     }
   },
 
-  async editStudent({ commit }, student) {
-    console.log('Edit student:', student);
-    // Handle editing logic here
+  async updateStudent({ dispatch }, student) {
+    try {     
+      const response = await axios.put(`${API_ENDPOINTS.HOC_SINH}/${student.id}`, student);
+      console.log('Dữ liệu học sinh sau khi cập nhật:', response.data);
+      showSuccessMessage('Cập nhật học sinh thành công!');
+      dispatch('fetchStudents');
+    } catch (error) {
+      console.error('Lỗi khi cập nhật học sinh:', error);
+    }
+  },
+   
+
+  async deleteStudent({ commit }, studentId) {
+    try {
+      await axios.delete(`${API_ENDPOINTS.HOC_SINH}/${studentId}`);
+      commit('REMOVE_STUDENT', studentId);
+    } catch (error) {
+      console.error('Lỗi khi xóa học sinh:', error);
+    }
+  },
+
+  async confirmDeleteStudent({ dispatch }, studentId) {
+    const isConfirmed = await showDeleteConfirmation();
+
+    if (isConfirmed) {
+      try {
+        await dispatch('deleteStudent', studentId);
+        showSuccessMessage('Xóa học sinh thành công!');
+      } catch (error) {
+        console.error('Lỗi khi xóa học sinh:', error);
+      }
+    }
   },
 };

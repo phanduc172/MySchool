@@ -13,8 +13,8 @@ import Dashboard from './resources/Dashboard.vue';
 import Login from './resources/Login.vue';
 import Navbar from './components/Navbar.vue';
 import Register from './resources/Register.vue';
-import Student from './components/StudentList.vue';
-import Teacher from './components/TeacherList.vue';
+import Student from './components/student/StudentList.vue';
+import Teacher from './components/teacher/TeacherList.vue';
 import UserProfile from './resources/UserProfile.vue';
 
 Vue.component('app-dashboard', Dashboard);

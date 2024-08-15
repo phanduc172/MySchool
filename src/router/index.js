@@ -40,7 +40,12 @@ const router = new VueRouter({
       path: '/manager/student',
       name: 'student',
       component: () => import('../resources/Student.vue')
-    }     
+    },     
+    {
+      path: '/manager/user',
+      name: 'user',
+      component: () => import('../resources/User.vue')
+    },     
   ]
 })
 

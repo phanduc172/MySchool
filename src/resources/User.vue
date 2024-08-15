@@ -1,13 +1,7 @@
 <template>
-  <b-container class="my-4" style="padding-top: 80px;">
+    <b-container class="my-4" style="padding-top: 80px;">
     <b-row>
       <b-col lg="12">
-        <teacher-list/>
-      </b-col>
-      <b-col lg="12" class="mt-5">
-        <student-list />
-      </b-col>
-      <b-col lg="12" class="mt-5">
         <user-list />
       </b-col>
     </b-row>
@@ -16,20 +10,16 @@
 
 <script>
 
-import StudentList from '../components/student/StudentList.vue';
-import TeacherList from '../components/teacher/TeacherList.vue';
 import UserList from '../components/UserList.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
   data() {
     return {
-      account: '',
-      password: '',
     };
   },
   components: {
-    TeacherList,StudentList,UserList,
+      UserList,
   },
   computed: {
     ...mapState([])
@@ -41,5 +31,6 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+
 </style>

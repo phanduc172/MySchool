@@ -9,6 +9,7 @@
         <b-nav-item to="/dashboard">Tổng quan</b-nav-item>
         <b-nav-item to="/manager/student">Quản lý học sinh</b-nav-item>
         <b-nav-item to="/manager/teacher">Quản lý giáo viên</b-nav-item>
+        <b-nav-item to="/manager/user">Quản lý người dùng</b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">

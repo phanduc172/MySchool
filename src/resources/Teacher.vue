@@ -1,5 +1,5 @@
 <template>
-  <b-container class="my-4" fluid>
+  <b-container class="my-4" fluid style="padding-top: 80px;">
     <b-row>
       <b-col lg="12">
         <teacher-list />
@@ -10,7 +10,7 @@
 
 <script>
 
-import TeacherList from '../components/TeacherList.vue';
+import TeacherList from '../components/teacher/TeacherList.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
@@ -32,5 +32,6 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
   

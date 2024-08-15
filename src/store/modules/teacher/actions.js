@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_ENDPOINTS } from '@/api/api';
+import { showDeleteConfirmation, showSuccessMessage } from '@/store/ui/ConfirmDelete';
 
 export default {
   async fetchTeachers({ commit }) {
@@ -14,10 +15,21 @@ export default {
     try {
       await axios.delete(`${API_ENDPOINTS.GIAO_VIEN}/${teacherId}`);
       commit('REMOVE_TEACHER', teacherId);
-      alert('Xóa giáo viên thành công!');
     } catch (error) {
       console.error('Lỗi khi xóa giáo viên:', error);
-      alert('Xóa giáo viên thất bại!');
     }
-  }
+  },
+  async confirmDeleteTeacher({ dispatch, commit }, teacherId) {
+    const isConfirmed = await showDeleteConfirmation();
+
+    if (isConfirmed) {
+      try {
+        await dispatch('deleteTeacher', teacherId);
+        showSuccessMessage();
+        dispatch('fetchTeachers');
+      } catch (error) {
+        console.error('Lỗi khi xóa giáo viên:', error);
+      }
+    }
+  },
 };
