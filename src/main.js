@@ -11,7 +11,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import Dashboard from './resources/Dashboard.vue';
 import Login from './resources/Login.vue';
-import Navbar from './components/Navbar.vue';
+import Navbar from './components/layout/Navbar.vue';
 import Register from './resources/Register.vue';
 import Student from './components/student/StudentList.vue';
 import Teacher from './components/teacher/TeacherList.vue';

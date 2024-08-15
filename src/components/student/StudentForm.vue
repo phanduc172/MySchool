@@ -39,7 +39,11 @@
         <b-form-select
           id="giaoVienChuNhiem"
           v-model="student.giaoVienChuNhiem"
-          :options="teacherOptions"
+          :options="[
+            { value: null, text: '-- Chọn giáo viên --', disabled: true },
+            ...teacherOptions
+          ]"
+          required
         ></b-form-select>
       </b-form-group>
 
@@ -82,19 +86,23 @@ export default {
     };
   },
   computed: {
-    ...mapState('student', ['students'])
+    ...mapState('teacher', ['teachers'])
   },
   methods: {
-  ...mapActions('student', ['addStudent', 'updateStudent']),
+    ...mapActions('student', ['addStudent', 'updateStudent']),
     async handleSubmit() {
       if (this.isEditing) {
         await this.updateStudent(this.student);
+        this.$emit('update-success');
+        this.$store.commit('student/SET_SHOW_FORM', false);
+        this.$emit('cancel');
       } else {
         await this.addStudent(this.student);
       }
     },
     cancel() {
       this.$emit('cancel');
+      this.$store.commit('student/SET_SHOW_FORM', false);
     }
   },
   watch: {
@@ -103,13 +111,10 @@ export default {
         value: teacher.id,
         text: teacher.ten
       }));
-    }
+    },
   },
   created() {
     this.$store.dispatch('teacher/fetchTeachers');
   }
 };
 </script>
-
-<style scoped>
-</style>

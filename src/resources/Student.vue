@@ -1,5 +1,5 @@
 <template>
-  <b-container class="my-4" fluid style="padding-top: 45px;">
+  <b-container class="my-4" style="padding-top: 45px;">
     <b-row v-if="showForm" class="mb-5">
       <b-col lg="12">
         <student-form
@@ -50,17 +50,11 @@ export default {
     ...mapState('teacher', ['teachers'])
   },
   methods: {
-    ...mapActions('student', ['addStudent', 'fetchStudents', 'confirmDeleteStudent']),
+    ...mapActions('student', ['addStudent', 'fetchStudents', 'confirmDeleteStudent','handleFormSave']),
     cancel() {
-      this.$store.commit('student/SET_SHOW_FORM', false);
+      this.$store.commit('student/SET_SHOW_FORM', true);
       this.$store.commit('student/SET_SHOW_BTN_ADD', false);
-      this.student = {
-        ten: '',
-        ngaySinh: '',
-        lop: '',
-        soDienThoai: '',
-        giaoVienChuNhiem: null 
-      };
+      this.$store.commit('student/RESET_FORM');
     },
     showAddForm() {
       this.$store.commit('student/SET_SHOW_FORM', true);
@@ -75,6 +69,11 @@ export default {
         text: teacher.ten
       }));
     });
+  },
+  watch: {
+    showForm(newValue) {
+      console.log('showForm đã thay đổi:', newValue);
+    }
   }
 };
 </script>

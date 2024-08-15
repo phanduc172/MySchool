@@ -1,7 +1,11 @@
 export default {
   SET_STUDENTS(state, students) {
-    state.students = students;
+    state.students = students.map(student => ({
+      ...student,
+      giaoVienChuNhiem: student.giaoVienChuNhiem ? student.giaoVienChuNhiem.ten : null
+    }));
   },
+  
   REMOVE_STUDENT(state, studentId) {
     state.students = state.students.filter(student => student.id !== studentId);
   },
@@ -13,7 +17,7 @@ export default {
   },
   SET_SHOW_FORM(state, showForm) {
     state.showForm = showForm;
-  },
+  },  
   SET_SHOW_BTN_ADD(state, showBtnAdd) {
     state.showBtnAdd = showBtnAdd;
   },

@@ -12,28 +12,31 @@ export default {
     }
   },
 
-  async addStudent({ dispatch }, student) {
+  async addStudent({ commit, dispatch }, student) {
     try {
       await axios.post(API_ENDPOINTS.HOC_SINH, student);
       showSuccessMessage('Thêm học sinh thành công!');
+      commit('SET_SHOW_FORM', false);
+      commit('SET_SHOW_BTN_ADD', false);
       dispatch('fetchStudents');
     } catch (error) {
       console.error('Lỗi khi thêm học sinh:', error);
     }
   },
 
-  async updateStudent({ dispatch }, student) {
-    try {     
+  async updateStudent({ commit, dispatch }, student) {
+    try {
       const response = await axios.put(`${API_ENDPOINTS.HOC_SINH}/${student.id}`, student);
       console.log('Dữ liệu học sinh sau khi cập nhật:', response.data);
       showSuccessMessage('Cập nhật học sinh thành công!');
+      commit('SET_SHOW_FORM', false);
+      commit('SET_SHOW_BTN_ADD', false);
       dispatch('fetchStudents');
     } catch (error) {
       console.error('Lỗi khi cập nhật học sinh:', error);
     }
   },
    
-
   async deleteStudent({ commit }, studentId) {
     try {
       await axios.delete(`${API_ENDPOINTS.HOC_SINH}/${studentId}`);
@@ -54,5 +57,14 @@ export default {
         console.error('Lỗi khi xóa học sinh:', error);
       }
     }
+  },
+  handleFormSave() {
+    if (this.isEditing) {
+      this.updateStudent(this.student);
+    } else {
+      this.addStudent(this.student);
+    }
+    this.fetchStudents();
+    this.cancel();  
   },
 };

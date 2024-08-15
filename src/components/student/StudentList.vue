@@ -5,7 +5,7 @@
         <student-form
           :studentData="student"
           :isEditing="isEditing"
-          @save="handleFormSave"
+          @update-success="handleUpdateSuccess"
           @cancel="cancel"
         />
       </b-col>
@@ -19,12 +19,12 @@
               <th style="width: 80px;">Ngày sinh</th>
               <th style="width: 50px;">Lớp</th>
               <th style="width: 100px;">Số điện thoại</th>
-              <th style="width: 120px;">Giáo viên chủ nhiệm</th>
+              <th style="width: 100px;">Giáo viên chủ nhiệm</th>
               <th style="width: 20px;">Hành động</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="student in students" :key="student.id">
+            <tr v-for="student in paginatedStudents" :key="student.id">
               <td>{{ student.ten }}</td>
               <td class="text-center">{{ student.ngaySinh }}</td>
               <td class="text-center">{{ student.lop }}</td>
@@ -43,6 +43,11 @@
             </tr>
           </tbody>
         </table>
+        <pagination
+          :total="totalStudents"
+          :per-page="perPage"
+          :current-page.sync="currentPage"
+        />
       </div>
     </b-card>
   </div>
@@ -51,10 +56,12 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import StudentForm from './StudentForm.vue';
+import Pagination from '../layout/Pagination.vue';
 
 export default {
   components: {
     StudentForm,
+    Pagination,
   },
   data() {
     return {
@@ -67,27 +74,28 @@ export default {
       },
       showForm: false,
       isEditing: false,
+      perPage: 10,
+      currentPage: 1
     };
   },
   computed: {
     ...mapState('student', ['students']),
+    totalStudents() {
+      return this.students.length;
+    },
+    paginatedStudents() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.students.slice(start, end);
+    }
   },
   methods: {
-  ...mapActions('student', ['fetchStudents', 'confirmDeleteStudent', 'updateStudent', 'addStudent']),
+    ...mapActions('student', ['fetchStudents', 'confirmDeleteStudent', 'updateStudent', 'addStudent']),
     editStudent(student) {
       this.student = { ...student };
       this.isEditing = true;
       this.showForm = true;
-    },
-    handleFormSave() {
-      console.log('Dữ liệu học sinh trước khi cập nhật:', this.student); 
-      if (this.isEditing) {
-        this.updateStudent(this.student);
-      } else {
-        this.addStudent(this.student);
-      }
-      this.fetchStudents();
-      this.cancel();
+      this.$store.commit('student/SET_SHOW_BTN_ADD', true);
     },
     cancel() {
       this.showForm = false;
@@ -99,12 +107,17 @@ export default {
         soDienThoai: '',
         giaoVienChuNhiem: null
       };
+      this.$store.commit('student/SET_SHOW_BTN_ADD', false);
+    },
+    handleUpdateSuccess() {
+      this.showForm = false;
+      this.isEditing = false;
+      this.fetchStudents();
     }
   },
   created() {
     this.fetchStudents(); 
   }
-
 };
 </script>
 
