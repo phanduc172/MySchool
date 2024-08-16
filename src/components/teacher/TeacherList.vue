@@ -4,6 +4,7 @@
       <table class="table table-striped">
         <thead>
           <tr>
+            <th style="width: 5%;;">STT</th>
             <th>Ảnh đại diện</th>
             <th>Họ tên</th>
             <th>Ngày sinh</th>
@@ -16,7 +17,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="teacher in teachers" :key="teacher.id">
+          <tr v-for="(teacher, index) in paginatedTeachers" :key="teacher.id">
+            <td class="text-center">{{ (currentPage - 1) * perPage + index + 1 }}</td>
             <td class="text-center">
               <b-img v-if="teacher.avatar" :src="`/${teacher.avatar}`" rounded="circle" style="width: 50px;" />
               <span v-else>No Avatar</span>
@@ -41,16 +43,39 @@
           </tr>
         </tbody>
       </table>
+      <pagination
+        :total="totalTeachers"
+        :per-page="perPage"
+        :current-page.sync="currentPage"
+      />
     </div>
   </b-card>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import Pagination from '../layout/Pagination.vue';
 
 export default {
+  data() {
+    return {
+      perPage: 10,
+      currentPage: 1,
+    };
+  },
+  components: {
+    Pagination,
+  },
   computed: {
     ...mapState('teacher', ['teachers']),
+    totalTeachers() {
+      return this.teachers.length;
+    },
+    paginatedTeachers() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.teachers.slice(start, end);
+    },
   },
   methods: {
     ...mapActions('teacher', ['fetchTeachers', 'editTeacher', 'confirmDeleteTeacher']),

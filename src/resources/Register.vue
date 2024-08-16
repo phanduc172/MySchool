@@ -3,6 +3,8 @@
     title="Đăng ký"
     buttonText="Đăng ký"
     :showConfirmPassword="true"
+    :showUsername="true"
+    :showBirthdate="true"
     @submit="onSubmitRegister"
   />
 </template>
@@ -16,9 +18,9 @@ export default {
   components: { AuthForm },
   methods: {
     ...mapActions('auth', ['registerUser']),
-    async onSubmitRegister({ account, password, confirmPassword }) {
+    async onSubmitRegister({ username, birthdate, account, password, confirmPassword }) {
       if (password !== confirmPassword) {
-        showErrorMessage()
+        showErrorMessage('Mật khẩu không khớp!');
         return;
       }
       try {
@@ -26,12 +28,16 @@ export default {
           tenTaiKhoan: account,
           matKhau: password,
           vaiTro: 'student',
-          avatar: 'user-avatar.jpg'
+          hoSo: {
+            hoTen: username,
+            ngaySinh: birthdate,
+            avatar: 'avatar.jpg',
+          },
         });
         this.$router.push('/dashboard');
-        showSuccessMessage()
+        showSuccessMessage('Đăng ký thành công!');
       } catch (error) {
-        showErrorMessage('Đăng ký thất bại! Vui lòng thử lại.')
+        showErrorMessage('Đăng ký thất bại! Vui lòng thử lại.');
       }
     },
   },

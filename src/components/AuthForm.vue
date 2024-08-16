@@ -1,14 +1,35 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="d-flex justify-content-center align-items-center vh-100" style="padding-top: 56px;">
     <b-card
       :title="title"
-      class="w-50"
+      class="card-responsive-form-auth"
       header-bg-variant="primary"
       header-text-variant="white"
       header-tag="header"
     >
       <b-form @submit.prevent="onSubmit">
-        <b-form-group id="accountGroup" label="Tài khoản:" label-for="accountInput">
+        <b-form-group v-if="showUsername" id="userNameGroup" label="Họ tên" label-for="userNameInput">
+          <b-form-input
+            id="userNameInput"
+            v-model="username"
+            type="text"
+            required
+            :placeholder="placeholderUserName"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group v-if="showBirthdate" id="dateBirthDate" label="Ngày sinh" label-for="birthDateInput">
+          <b-form-input
+            id="birthDateInput"
+            v-model="birthdate"
+            type="date"
+            required
+            :placeholder="placeholderBirthDate"
+            :max="maxDate"
+          ></b-form-input>
+        </b-form-group>
+        
+        <b-form-group id="accountGroup" label="Tài khoản" label-for="accountInput">
           <b-form-input
             id="accountInput"
             v-model="account"
@@ -18,7 +39,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="passwordGroup" label="Mật khẩu:" label-for="passwordInput">
+        <b-form-group id="passwordGroup" label="Mật khẩu" label-for="passwordInput">
           <b-form-input
             id="passwordInput"
             v-model="password"
@@ -28,7 +49,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group v-if="showConfirmPassword" id="confirmPasswordGroup" label="Xác nhận mật khẩu:" label-for="confirmPasswordInput">
+        <b-form-group v-if="showConfirmPassword" id="confirmPasswordGroup" label="Xác nhận mật khẩu" label-for="confirmPasswordInput">
           <b-form-input
             id="confirmPasswordInput"
             v-model="confirmPassword"
@@ -42,6 +63,10 @@
           <b-link :to="linkTo">{{ linkText }}</b-link>
         </b-form-group>
 
+         <b-form-group v-if="errorMessage">
+          <b-alert variant="danger" show>{{ errorMessage }}</b-alert>
+        </b-form-group>
+
         <b-button type="submit" variant="primary" block>{{ buttonText }}</b-button>
       </b-form>
     </b-card>
@@ -49,15 +74,24 @@
 </template>
 
 <script>
+import '@/assets/css/responsive.css'; 
 export default {
   props: {
     title: {
       type: String,
       required: true,
     },
+    placeholderUserName: {
+      type: String,
+      default: 'Nhập họ tên',
+    },
+    placeholderBirthDate: {
+      type: String,
+      default: '',
+    },
     placeholderAccount: {
       type: String,
-      default: 'Nhập tên tài khoản',
+      default: 'Nhập tài khoản',
     },
     placeholderPassword: {
       type: String,
@@ -87,17 +121,25 @@ export default {
       type: String,
       default: '',
     },
-    showOldPassword: {
+    showBirthdate: {
+      type: Boolean,
+      default: false,
+    },
+    showUsername: {
       type: Boolean,
       default: false,
     },
   },
   data() {
     return {
+      username: '',
+      birthdate: '',
       account: '',
       password: '',
       confirmPassword: '',
       oldPassword: '',
+      maxDate: new Date().toISOString().split('T')[0],
+      errorMessage: '',
     };
   },
   methods: {
@@ -105,16 +147,48 @@ export default {
       let data = {
         account: this.account,
         password: this.password,
-        confirmPassword: this.confirmPassword,
+        username: this.username,
+        birthdate: this.birthdate
       };
+      if (this.showConfirmPassword) {
+        data.confirmPassword = this.confirmPassword;
+      }
       if (this.showOldPassword) {
         data.oldPassword = this.oldPassword;
       }
       this.$emit('submit', data);
     },
+    showError(message) {
+      this.errorMessage = message;
+    }
   },
 };
 </script>
 
 <style scoped>
+.card-responsive-form-auth {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.b-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.b-form-input {
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  padding: 0.75rem 1.25rem;
+}
+
+.b-button {
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+}
+
+.b-link {
+  display: block;
+  margin-top: 1rem;
+}
 </style>

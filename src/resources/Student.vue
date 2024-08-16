@@ -10,7 +10,7 @@
         />
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="!showForm">
       <b-col lg="12">
         <div class="d-flex justify-content-between mb-3">
           <input
@@ -18,6 +18,7 @@
             v-model="search"
             @input="searchStudents"
             placeholder="Tìm kiếm học sinh..."
+            v-show="!showBtnAdd"
           />
           <b-button @click="showAddForm" v-show="!showBtnAdd" variant="primary">
             Thêm
@@ -28,6 +29,7 @@
     </b-row>
   </b-container>
 </template>
+
   
 <script>
 import { mapState, mapActions } from "vuex";
@@ -78,8 +80,10 @@ export default {
       this.$store.commit("student/SET_SHOW_FORM", false);
       this.$store.commit("student/SET_SHOW_BTN_ADD", false);
       this.$store.commit("student/RESET_FORM");
+      this.$router.push('/manager/student');
     },
     showAddForm() {
+      this.$router.push('/manager/student/create');
       this.$store.commit("student/SET_SHOW_FORM", true);
       this.$store.commit("student/SET_SHOW_BTN_ADD", true);
     },
@@ -95,6 +99,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .table th {

@@ -15,7 +15,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown v-if="isLoggedIn" right>
           <template #button-content>
-            <b-img class="img-user" :src="user.hoSo.avatar" rounded="circle" alt="User Avatar "></b-img>
+            <b-img class="img-user" :src="`/${user.hoSo.avatar}`" rounded="circle" alt="User Avatar "></b-img>
             <em class=" ml-1 mr-2 text-truncate">
               {{ user.hoSo && user.hoSo.hoTen ? user.hoSo.hoTen : user.tenTaiKhoan }}
             </em>

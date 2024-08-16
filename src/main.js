@@ -8,6 +8,7 @@ import './assets/main.css';
 import { BootstrapVue, IconsPlugin,FormGroupPlugin } from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import '@/assets/css/responsive.css';
 
 import Dashboard from './resources/Dashboard.vue';
 import Login from './resources/Login.vue';
@@ -35,3 +36,5 @@ new Vue({
   store,
   render: h => h(App),
 }).$mount('#app');
+
+store.dispatch('auth/autoLogin');

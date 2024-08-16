@@ -82,7 +82,6 @@ export default {
   data() {
     return {
       student: { ...this.studentData },
-      // Giải thích cái này sau khi hoàn thiện chức năng
       teacherOptions: []
     };
   },

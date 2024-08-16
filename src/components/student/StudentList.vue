@@ -8,7 +8,7 @@
           @update-success="handleUpdateSuccess"
           @cancel="cancel"
         />
-      </b-col>ssss
+      </b-col>
     </b-row>
     <b-card title="Danh sách học sinh">
       <div class="table-responsive">
@@ -16,23 +16,23 @@
           <thead>
             <tr>
               <th style="width:5%">STT</th>
-              <th style="width: 120px;">Họ tên</th>
-              <th style="width: 80px;">Ngày sinh</th>
-              <th style="width: 50px;">Lớp</th>
-              <th style="width: 100px;">Số điện thoại</th>
-              <th style="width: 100px;">Giáo viên chủ nhiệm</th>
-              <th style="width: 20px;">Hành động</th>
+              <th>Họ tên</th>
+              <th>Ngày sinh</th>
+              <th>Lớp</th>
+              <th >Số điện thoại</th>
+              <th >Giáo viên chủ nhiệm</th>
+              <th >Hành động</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(student, index) in paginatedStudents" :key="index">
-              <td class="text-center">{{ index++ }}</td>
-              <td>{{ student.ten }}</td>
-              <td class="text-center">{{ student.ngaySinh }}</td>
-              <td class="text-center">{{ student.lop }}</td>
-              <td class="text-center">{{ student.soDienThoai }}</td>
-              <td>{{ student.giaoVienChuNhiem }}</td>
-              <td class="text-center">
+              <td class="text-center">{{ index+1 }}</td>
+              <td style="width: 120px;">{{ student.ten }}</td>
+              <td style="width: 80px;" class="text-center">{{ student.ngaySinh }}</td>
+              <td  style="width: 50px;" class="text-center">{{ student.lop }}</td>
+              <td style="width: 100px;" class="text-center">{{ student.soDienThoai }}</td>
+              <td style="width: 100px;">{{ student.giaoVienChuNhiem }}</td>
+              <td style="width: 20px;" class="text-center">
                 <b-button-group>
                   <b-button variant="info" @click="editStudent(student)">
                     <b-icon icon="pencil"></b-icon>
@@ -137,6 +137,22 @@ export default {
 }
 
 .table td, .table th {
-  white-space: nowrap;
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.table td {
+  max-width: 150px;
+}
+
+.table td, .table th {
+  word-break: break-word;
+}
+
+.table th {
+  text-align: center;
+  font-weight: bold;
 }
 </style>
+

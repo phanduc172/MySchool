@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_ENDPOINTS } from './api';
 
-const API_BASE_URL = 'http://localhost:3000/api/hoc-sinh';
+const API_BASE_URL = API_ENDPOINTS.HOC_SINH;
 
 export const studentApi = {
   getStudents: () => axios.get(API_BASE_URL),

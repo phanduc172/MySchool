@@ -14,6 +14,6 @@ export default {
     state.isAuthenticated = false;
   },
   ADD_USER(state, user) {
-    // Optional: Cập nhật thêm nếu cần
+    state.user = user;
   }
 };
