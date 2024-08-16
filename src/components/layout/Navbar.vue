@@ -15,7 +15,10 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown v-if="isLoggedIn" right>
           <template #button-content>
-            <em class="mx-2">{{ user.hoSo && user.hoSo.hoTen ? user.hoSo.hoTen : user.tenTaiKhoan }}</em>
+            <b-img class="img-user" :src="user.hoSo.avatar" rounded="circle" alt="User Avatar "></b-img>
+            <em class=" ml-1 mr-2 text-truncate">
+              {{ user.hoSo && user.hoSo.hoTen ? user.hoSo.hoTen : user.tenTaiKhoan }}
+            </em>
           </template>
           <b-dropdown-item to="/profile">Hồ sơ</b-dropdown-item>
           <b-dropdown-item href="#" @click="logout">Đăng xuất</b-dropdown-item>
@@ -46,4 +49,16 @@ export default {
 </script>
 
 <style scoped>
+  .text-truncate {
+    display: inline-flex;
+    align-items: center;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .img-user {
+    width: 30px;
+    height: 30px;
+  }
 </style>

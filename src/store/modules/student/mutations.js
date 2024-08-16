@@ -5,7 +5,6 @@ export default {
       giaoVienChuNhiem: student.giaoVienChuNhiem ? student.giaoVienChuNhiem.ten : null
     }));
   },
-  
   REMOVE_STUDENT(state, studentId) {
     state.students = state.students.filter(student => student.id !== studentId);
   },

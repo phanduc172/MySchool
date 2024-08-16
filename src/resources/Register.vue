@@ -10,6 +10,7 @@
 <script>
 import AuthForm from '@/components/AuthForm.vue';
 import { mapActions } from 'vuex';
+import { showErrorMessage, showSuccessMessage } from '@/store/ui/ConfirmDelete';
 
 export default {
   components: { AuthForm },
@@ -17,7 +18,7 @@ export default {
     ...mapActions('auth', ['registerUser']),
     async onSubmitRegister({ account, password, confirmPassword }) {
       if (password !== confirmPassword) {
-        alert("Mật khẩu không trùng khớp!");
+        showErrorMessage()
         return;
       }
       try {
@@ -25,11 +26,12 @@ export default {
           tenTaiKhoan: account,
           matKhau: password,
           vaiTro: 'student',
+          avatar: 'user-avatar.jpg'
         });
         this.$router.push('/dashboard');
-        alert("Đăng ký thành công!");
+        showSuccessMessage()
       } catch (error) {
-        alert("Đăng ký thất bại! Vui lòng thử lại.");
+        showErrorMessage('Đăng ký thất bại! Vui lòng thử lại.')
       }
     },
   },

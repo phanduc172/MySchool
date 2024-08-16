@@ -20,3 +20,10 @@ export const showSuccessMessage = () => {
     icon: "success"
   });
 };
+
+export const showErrorMessage = () => {
+  Swal.fire({
+    title: "Thất bại!",
+    icon: "warning"
+  });
+};

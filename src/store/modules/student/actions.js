@@ -58,6 +58,14 @@ export default {
       }
     }
   },
+  async searchStudents({ commit }, { ten = '', sodienthoai = '' }) {
+    try {
+      const response = await axios.get(`${API_ENDPOINTS.HOC_SINH}?ten=${ten}&soDienThoai=${sodienthoai}`);
+      commit('SET_STUDENTS', response.data);
+    } catch (error) {
+      console.error('Lỗi khi tìm kiếm học sinh:', error);
+    }
+  },
   handleFormSave() {
     if (this.isEditing) {
       this.updateStudent(this.student);

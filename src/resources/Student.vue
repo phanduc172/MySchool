@@ -1,5 +1,5 @@
 <template>
-  <b-container class="my-4" style="padding-top: 45px;">
+  <b-container class="my-4" fluid style="padding-top: 45px">
     <b-row v-if="showForm" class="mb-5">
       <b-col lg="12">
         <student-form
@@ -9,72 +9,90 @@
           @cancel="cancel"
         />
       </b-col>
-    </b-row>  
+    </b-row>
     <b-row>
       <b-col lg="12">
-        <div class="d-flex justify-content-end mb-3">
-          <b-button @click="showAddForm" v-show="!showBtnAdd" variant="primary">Thêm</b-button>
+        <div class="d-flex justify-content-between mb-3">
+          <input
+            type="text"
+            v-model="search"
+            @input="searchStudents"
+            placeholder="Tìm kiếm học sinh..."
+          />
+          <b-button @click="showAddForm" v-show="!showBtnAdd" variant="primary">
+            Thêm
+          </b-button>
         </div>
-        <student-list />
+        <student-list :students="filteredStudents" />
       </b-col>
     </b-row>
   </b-container>
 </template>
   
 <script>
-import { mapState, mapActions } from 'vuex';
-import StudentList from '../components/student/StudentList.vue';
-import StudentForm from '../components/student/StudentForm.vue';
+import { mapState, mapActions } from "vuex";
+import StudentList from "../components/student/StudentList.vue";
+import StudentForm from "../components/student/StudentForm.vue";
 
 export default {
   components: {
     StudentList,
-    StudentForm
+    StudentForm,
   },
   data() {
     return {
       student: {
-        ten: '',
-        ngaySinh: '',
-        lop: '',
-        soDienThoai: '',
-        giaoVienChuNhiem: null
+        ten: "",
+        ngaySinh: "",
+        lop: "",
+        soDienThoai: "",
+        giaoVienChuNhiem: null,
       },
       isEditing: false,
       selectedStudentId: null,
-      teacherOptions: []
+      teacherOptions: [],
+      search: "",
     };
   },
   computed: {
-    ...mapState('student', ['students','showBtnAdd','showForm']),
-    ...mapState('teacher', ['teachers'])
+    ...mapState("student", ["students", "showBtnAdd", "showForm"]),
+    ...mapState("teacher", ["teachers"]),
+    filteredStudents() {
+      return this.students.filter((stu) => {
+        return (
+          stu.ten.toLowerCase().includes(this.search.toLowerCase()) ||
+          stu.soDienThoai.includes(this.search)
+        );
+      });
+    },
   },
   methods: {
-    ...mapActions('student', ['addStudent', 'fetchStudents', 'confirmDeleteStudent','handleFormSave']),
+    ...mapActions("student", [
+      "addStudent",
+      "fetchStudents",
+      "confirmDeleteStudent",
+      "handleFormSave",
+      "searchStudents",
+    ]),
     cancel() {
-      this.$store.commit('student/SET_SHOW_FORM', true);
-      this.$store.commit('student/SET_SHOW_BTN_ADD', false);
-      this.$store.commit('student/RESET_FORM');
+      this.$store.commit("student/SET_SHOW_FORM", false);
+      this.$store.commit("student/SET_SHOW_BTN_ADD", false);
+      this.$store.commit("student/RESET_FORM");
     },
     showAddForm() {
-      this.$store.commit('student/SET_SHOW_FORM', true);
-      this.$store.commit('student/SET_SHOW_BTN_ADD', true);
+      this.$store.commit("student/SET_SHOW_FORM", true);
+      this.$store.commit("student/SET_SHOW_BTN_ADD", true);
     },
   },
   created() {
     this.fetchStudents();
-    this.$store.dispatch('teacher/fetchTeachers').then(() => {
-      this.teacherOptions = this.teachers.map(teacher => ({
+    this.$store.dispatch("teacher/fetchTeachers").then(() => {
+      this.teacherOptions = this.teachers.map((teacher) => ({
         value: teacher.id,
-        text: teacher.ten
+        text: teacher.ten,
       }));
     });
   },
-  watch: {
-    showForm(newValue) {
-      console.log('showForm đã thay đổi:', newValue);
-    }
-  }
 };
 </script>
 
@@ -88,7 +106,8 @@ export default {
   overflow-x: auto;
 }
 
-.table td, .table th {
+.table td,
+.table th {
   white-space: nowrap;
 }
 </style>

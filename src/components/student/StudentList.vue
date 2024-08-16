@@ -8,13 +8,14 @@
           @update-success="handleUpdateSuccess"
           @cancel="cancel"
         />
-      </b-col>
+      </b-col>ssss
     </b-row>
     <b-card title="Danh sách học sinh">
       <div class="table-responsive">
         <table class="table table-striped">
           <thead>
             <tr>
+              <th style="width:5%">STT</th>
               <th style="width: 120px;">Họ tên</th>
               <th style="width: 80px;">Ngày sinh</th>
               <th style="width: 50px;">Lớp</th>
@@ -24,7 +25,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="student in paginatedStudents" :key="student.id">
+            <tr v-for="(student, index) in paginatedStudents" :key="index">
+              <td class="text-center">{{ index++ }}</td>
               <td>{{ student.ten }}</td>
               <td class="text-center">{{ student.ngaySinh }}</td>
               <td class="text-center">{{ student.lop }}</td>
@@ -66,7 +68,7 @@ export default {
   data() {
     return {
       student: {
-        ten: '',
+        ten: null,
         ngaySinh: '',
         lop: '',
         soDienThoai: '',
@@ -96,6 +98,9 @@ export default {
       this.isEditing = true;
       this.showForm = true;
       this.$store.commit('student/SET_SHOW_BTN_ADD', true);
+      this.$nextTick(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     },
     cancel() {
       this.showForm = false;

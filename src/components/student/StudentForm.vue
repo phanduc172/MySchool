@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       student: { ...this.studentData },
+      // Giải thích cái này sau khi hoàn thiện chức năng
       teacherOptions: []
     };
   },
@@ -106,6 +107,7 @@ export default {
     }
   },
   watch: {
+    // Giải thích lý do vì sao phải sử dụng watch ở đây
     teachers(newTeachers) {
       this.teacherOptions = newTeachers.map(teacher => ({
         value: teacher.id,
