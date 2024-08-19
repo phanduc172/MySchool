@@ -1,5 +1,20 @@
 <template>
   <b-container class="my-4" fluid style="padding-top: 45px">
+    <b-row v-if="!showForm">
+      <b-col lg="12">
+        <div class="d-flex justify-content-between mb-3">
+          <input
+            type="text"
+            v-model="search"
+            @input="searchStudents"
+            placeholder="Tìm kiếm học sinh..."
+          />
+          <b-button @click="showAddForm" variant="primary">
+            Thêm
+          </b-button>
+        </div>
+      </b-col>
+    </b-row>
     <b-row v-if="showForm" class="mb-5">
       <b-col lg="12">
         <student-form
@@ -10,23 +25,11 @@
         />
       </b-col>
     </b-row>
-    <b-row v-if="!showForm">
+    <b-row v-else>
       <b-col lg="12">
-        <div class="d-flex justify-content-between mb-3">
-          <input
-            type="text"
-            v-model="search"
-            @input="searchStudents"
-            placeholder="Tìm kiếm học sinh..."
-            v-show="!showBtnAdd"
-          />
-          <b-button @click="showAddForm" v-show="!showBtnAdd" variant="primary">
-            Thêm
-          </b-button>
-        </div>
+        <student-list :students="filteredStudents" />
       </b-col>
     </b-row>
-    <student-list :students="filteredStudents" v-show="!showForm" />
   </b-container>
 </template>
 
@@ -56,7 +59,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("student", ["showBtnAdd", "showForm"]),
+    ...mapState("student", ["showForm"]),
     ...mapGetters("student", ["filteredStudents"]),
     ...mapState("teacher", ["teachers"]),
   },
@@ -65,25 +68,34 @@ export default {
       "addStudent",
       "fetchStudents",
       "confirmDeleteStudent",
-      "handleFormSave",
+      "updateStudent",
       "searchStudents",
     ]),
     cancel() {
       this.$store.commit("student/SET_SHOW_FORM", false);
-      this.$store.commit("student/SET_SHOW_BTN_ADD", false);
       this.$store.commit("student/RESET_FORM");
       this.$router.push('/manager/student');
     },
     showAddForm() {
-      this.$router.push('/manager/student/create');
+      this.isEditing = false;  // Đặt isEditing thành false khi thêm mới
       this.$store.commit("student/SET_SHOW_FORM", true);
-      this.$store.commit("student/SET_SHOW_BTN_ADD", true);
+      this.$router.push('/manager/student/create');
     },
     searchStudents() {
       this.$store.dispatch("student/searchStudents", {
         ten: this.search,
         sodienthoai: "",
       });
+    },
+    async handleFormSave(studentData) {
+      if (this.isEditing) {
+        await this.$store.dispatch("student/updateStudent", studentData);
+      } else {
+        await this.$store.dispatch("student/addStudent", studentData);
+      }
+      this.$store.commit("student/SET_SHOW_FORM", false);
+      this.$store.commit("student/RESET_FORM");
+      this.$router.push('/manager/student');
     },
   },
   created() {
@@ -112,7 +124,6 @@ export default {
   .table th {
     white-space: nowrap;
   }
-
 
   input[type="text"] {
     width: 50%;

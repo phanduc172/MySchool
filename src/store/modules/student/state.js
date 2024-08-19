@@ -8,6 +8,6 @@ export default {
     giaoVienChuNhiem: null
   },
   showForm: false,
-  showBtnAdd: false,
-  selectedStudentId: null
+  selectedStudentId: null,
+  showStudentForm: false,
 };

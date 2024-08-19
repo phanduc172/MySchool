@@ -1,45 +1,89 @@
 <template>
   <b-container class="my-4" fluid style="padding-top: 45px;">
     <b-row>
-      <b-col lg="12">
+      <b-col lg="12" v-if="!showTeacherForm">
         <div class="d-flex justify-content-between mb-3">
           <input
             type="text"
             placeholder="Tìm kiếm giáo viên..."
           />
-          <b-button  variant="primary">
+          <b-button @click="showForm" variant="primary">
             Thêm
           </b-button>
         </div>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="showTeacherForm">
       <b-col lg="12">
-        <teacher-list />
+        <teacher-form
+          :isEditing="isEditing"
+          :teacherData="selectedTeacher"
+          @save="handleSave"
+          @cancel="closeForm"
+        />
+      </b-col>
+    </b-row>
+    <b-row v-else>
+      <b-col lg="12">
+        <teacher-list @edit="editTeacher" @delete="handleDelete" />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-
 import TeacherList from '../components/teacher/TeacherList.vue';
-import { mapActions, mapMutations, mapState } from 'vuex';
+import TeacherForm from '../components/teacher/TeacherForm.vue';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data() {
     return {
+      isEditing: false,
+      selectedTeacher: null,
     };
   },
   components: {
-      TeacherList,
+    TeacherList,
+    TeacherForm,
   },
   computed: {
-    ...mapState([])
+    ...mapState('teacher', ['showTeacherForm']),
   },
   methods: {
-    ...mapMutations([]),
-    ...mapActions([]),
+    ...mapActions('teacher', ['fetchTeachers', 'confirmDeleteTeacher', 'addTeacher', 'updateTeacher', 'closeTeacherForm']),
+    
+    showForm() {
+      this.$router.push('/manager/teacher/create');
+      this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', true);
+      this.isEditing = false;
+      this.selectedTeacher = null;
+    },
+    
+    async handleSave() {
+      await this.fetchTeachers();
+      this.closeForm();
+    },
+
+    closeForm() {
+      this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', false);
+      this.isEditing = false;
+      this.selectedTeacher = null;
+      this.$router.push('/manager/teacher');
+    },
+
+    editTeacher(teacher) {
+      this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', true);
+      this.isEditing = true;
+      this.selectedTeacher = teacher;
+    },
+
+    handleDelete(teacherId) {
+      this.confirmDeleteTeacher(teacherId);
+    },
+  },
+  created() {
+    this.fetchTeachers();
   },
 };
 </script>

@@ -1,3 +1,4 @@
 export default {
-  teachers: []
+  teachers: [],
+  showTeacherForm: false,
 };

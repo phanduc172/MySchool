@@ -10,7 +10,7 @@
         />
       </b-col>
     </b-row>
-    <b-card title="Danh sách học sinh">
+    <b-card v-if="!showForm" title="Danh sách học sinh">
       <div class="table-responsive m-0">
         <table class="table table-striped">
           <thead>
@@ -19,17 +19,17 @@
               <th>Họ tên</th>
               <th>Ngày sinh</th>
               <th>Lớp</th>
-              <th >Số điện thoại</th>
-              <th >Giáo viên chủ nhiệm</th>
-              <th >Hành động</th>
+              <th>Số điện thoại</th>
+              <th>Giáo viên chủ nhiệm</th>
+              <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(student, index) in paginatedStudents" :key="index">
-              <td class="text-center">{{ index+1 }}</td>
+              <td class="text-center">{{ index + 1 }}</td>
               <td style="width: 120px;">{{ student.ten }}</td>
               <td style="width: 80px;" class="text-center">{{ student.ngaySinh }}</td>
-              <td  style="width: 50px;" class="text-center">{{ student.lop }}</td>
+              <td style="width: 50px;" class="text-center">{{ student.lop }}</td>
               <td style="width: 100px;" class="text-center">{{ student.soDienThoai }}</td>
               <td style="width: 100px;">{{ student.giaoVienChuNhiem }}</td>
               <td style="width: 20px;" class="text-center">
@@ -97,7 +97,6 @@ export default {
       this.student = { ...student };
       this.isEditing = true;
       this.showForm = true;
-      this.$store.commit('student/SET_SHOW_BTN_ADD', true);
       this.$nextTick(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
@@ -112,7 +111,6 @@ export default {
         soDienThoai: '',
         giaoVienChuNhiem: null
       };
-      this.$store.commit('student/SET_SHOW_BTN_ADD', false);
     },
     handleUpdateSuccess() {
       this.showForm = false;
@@ -121,7 +119,7 @@ export default {
     }
   },
   created() {
-    this.fetchStudents(); 
+    this.fetchStudents();
   }
 };
 </script>
@@ -228,4 +226,3 @@ export default {
     justify-content: center;
   }
 </style>
-

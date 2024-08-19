@@ -17,9 +17,6 @@ export default {
   SET_SHOW_FORM(state, showForm) {
     state.showForm = showForm;
   },  
-  SET_SHOW_BTN_ADD(state, showBtnAdd) {
-    state.showBtnAdd = showBtnAdd;
-  },
   RESET_FORM(state) {
     state.student = {
       ten: '',
@@ -30,5 +27,8 @@ export default {
     };
     state.isEditing = false;
     state.showForm = false;
-  }
+  },
+  SET_SHOW_STUDENT_FORM(state, showStudentForm) {
+    state.showStudentForm = showStudentForm;
+  }  
 };

@@ -37,6 +37,11 @@ const router = new VueRouter({
       component: () => import('../resources/Teacher.vue')
     },
     {
+      path: '/manager/teacher/create',
+      name: 'teacherCreate',
+      component: () => import('../resources/Teacher.vue')
+    },
+    {
       path: '/manager/student',
       name: 'student',
       component: () => import('../resources/Student.vue')

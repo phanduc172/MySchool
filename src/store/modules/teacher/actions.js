@@ -11,6 +11,24 @@ export default {
       console.error('Lỗi khi lấy dữ liệu giáo viên:', error);
     }
   },
+  async addTeacher({ commit }, teacher) {
+    try {
+      const response = await axios.post(API_ENDPOINTS.GIAO_VIEN, teacher);
+      showSuccessMessage();
+      commit('ADD_TEACHER', response.data);
+    } catch (error) {
+      console.error('Lỗi khi thêm giáo viên:', error);
+    }
+  },
+  async updateTeacher({ commit }, teacher) {
+    try {
+      const response = await axios.put(`${API_ENDPOINTS.GIAO_VIEN}/${teacher.id}`, teacher);
+      commit('UPDATE_TEACHER', response.data);
+      showSuccessMessage();
+    } catch (error) {
+      console.error('Lỗi khi cập nhật giáo viên:', error);
+    }
+  },
   async deleteTeacher({ commit }, teacherId) {
     try {
       await axios.delete(`${API_ENDPOINTS.GIAO_VIEN}/${teacherId}`);
@@ -19,17 +37,18 @@ export default {
       console.error('Lỗi khi xóa giáo viên:', error);
     }
   },
-  async confirmDeleteTeacher({ dispatch, commit }, teacherId) {
+  async confirmDeleteTeacher({ dispatch }, teacherId) {
     const isConfirmed = await showDeleteConfirmation();
-
     if (isConfirmed) {
-      try {
-        await dispatch('deleteTeacher', teacherId);
-        showSuccessMessage();
-        dispatch('fetchTeachers');
-      } catch (error) {
-        console.error('Lỗi khi xóa giáo viên:', error);
-      }
+      await dispatch('deleteTeacher', teacherId);
+      dispatch('fetchTeachers');
     }
   },
+  showTeacherForm({ commit }) {
+    commit('SET_SHOW_TEACHER_FORM', true);
+  },
+  closeTeacherForm({ commit }) {
+    commit('SET_SHOW_TEACHER_FORM', false);
+  },
+
 };

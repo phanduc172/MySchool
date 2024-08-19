@@ -96,11 +96,12 @@ export default {
     async handleSubmit() {
       if (this.isEditing) {
         await this.updateStudent(this.student);
-        this.$emit('update-success');
+        this.$emit('save');
         this.$store.commit('student/SET_SHOW_FORM', false);
-        this.$emit('cancel');
       } else {
         await this.addStudent(this.student);
+        this.$emit('save');
+        this.$store.commit('student/SET_SHOW_FORM', false);
       }
     },
     cancel() {
@@ -109,7 +110,6 @@ export default {
     }
   },
   watch: {
-    // Giải thích lý do vì sao phải sử dụng watch ở đây
     teachers(newTeachers) {
       this.teacherOptions = newTeachers.map(teacher => ({
         value: teacher.id,
