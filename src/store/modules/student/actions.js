@@ -42,8 +42,16 @@ export default {
   },
 
   async searchStudents({ commit }, { ten = '', sodienthoai = '' }) {
-      const response = await axios.get(`${API_ENDPOINTS.HOC_SINH}?ten=${ten}&soDienThoai=${sodienthoai}`);
-      commit('SET_STUDENTS', response.data);
+    try {
+        const params = {};
+        if (ten) params.ten = ten;
+        if (sodienthoai) params.soDienThoai = sodienthoai;
+        
+        const response = await axios.get(`${API_ENDPOINTS.HOC_SINH}`, { params });
+        commit('SET_STUDENTS', response.data);
+    } catch (error) {
+        console.error('Error fetching students:', error);
+    }
   },
 
   handleFormSave() {

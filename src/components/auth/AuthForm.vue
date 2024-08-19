@@ -72,7 +72,7 @@
 
 <script>
 import '@/assets/css/responsive.css'; 
-import { validateAccount } from '../common/utils'
+import { getMaxDate, validateAccount } from '../common/utils'
 export default {
   props: {
     title: {
@@ -135,7 +135,7 @@ export default {
       account: '',
       password: '',
       confirmPassword: '',
-      maxDate: new Date().toISOString().split('T')[0],
+      maxDate: getMaxDate(),
       errorMessage: '',
     };
   },

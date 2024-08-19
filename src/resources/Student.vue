@@ -30,9 +30,8 @@
   </b-container>
 </template>
 
-  
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import StudentList from "../components/student/StudentList.vue";
 import StudentForm from "../components/student/StudentForm.vue";
 
@@ -57,16 +56,9 @@ export default {
     };
   },
   computed: {
-    ...mapState("student", ["students", "showBtnAdd", "showForm"]),
+    ...mapState("student", ["showBtnAdd", "showForm"]),
+    ...mapGetters("student", ["filteredStudents"]),
     ...mapState("teacher", ["teachers"]),
-    filteredStudents() {
-      return this.students.filter((stu) => {
-        return (
-          stu.ten.toLowerCase().includes(this.search.toLowerCase()) ||
-          stu.soDienThoai.includes(this.search)
-        );
-      });
-    },
   },
   methods: {
     ...mapActions("student", [
@@ -87,6 +79,12 @@ export default {
       this.$store.commit("student/SET_SHOW_FORM", true);
       this.$store.commit("student/SET_SHOW_BTN_ADD", true);
     },
+    searchStudents() {
+      this.$store.dispatch("student/searchStudents", {
+        ten: this.search,
+        sodienthoai: "",
+      });
+    },
   },
   created() {
     this.fetchStudents();
@@ -100,19 +98,52 @@ export default {
 };
 </script>
 
-
 <style scoped>
-.table th {
-  text-align: center;
-  font-weight: bold;
-}
+  .table th {
+    text-align: center;
+    font-weight: bold;
+  }
 
-.table-responsive {
-  overflow-x: auto;
-}
+  .table-responsive {
+    overflow-x: auto;
+  }
 
-.table td,
-.table th {
-  white-space: nowrap;
-}
+  .table td,
+  .table th {
+    white-space: nowrap;
+  }
+
+
+  input[type="text"] {
+    width: 50%;
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    padding: 0.5rem 1rem; 
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+  }
+
+  input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .b-button {
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .b-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .d-flex {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+  }
 </style>

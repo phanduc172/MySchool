@@ -1,8 +1,8 @@
   <template>
     <b-col md="8">
       <b-card>
-          <b-img :src="user.hoSo.avatar" center rounded="circle"></b-img>
-        <h2 class="text-truncate">{{ user.hoSo.hoTen }}</h2>
+          <b-img class="profile-img" :src="user.hoSo.avatar" center rounded="circle"></b-img>
+        <h2 class="text-truncate my-2">{{ user.hoSo.hoTen }}</h2>
 
         <ul class="list-group">
           <li class="list-group-item">
@@ -38,4 +38,10 @@
       white-space: nowrap;
       text-align: center;
     }
+    .profile-img {
+      border: 5px solid #17a2b8;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+    }
+        
   </style>

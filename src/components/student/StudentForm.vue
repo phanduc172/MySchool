@@ -14,6 +14,7 @@
           id="ngaySinh"
           v-model="student.ngaySinh"
           type="date"
+          :max="maxDate"
           required
         ></b-form-input>
       </b-form-group>
@@ -61,6 +62,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { getMaxDate } from '../common/utils'
 
 export default {
   props: {
@@ -82,7 +84,8 @@ export default {
   data() {
     return {
       student: { ...this.studentData },
-      teacherOptions: []
+      teacherOptions: [],
+      maxDate: getMaxDate()
     };
   },
   computed: {
