@@ -4,16 +4,18 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th style="width: 100px;">Ảnh đại diện</th>
-            <th style="width: 150px;">Tên tài khoản</th>
-            <th style="width: 150px;">Họ tên</th>
-            <th style="width: 150px;">Ngày sinh</th>
-            <th style="width: 100px;">Vai trò</th>
-            <th style="width: 120px;">Hành động</th>
+            <th style="width: 5%;;">STT</th>
+            <th>Ảnh đại diện</th>
+            <th>Tên tài khoản</th>
+            <th>Họ tên</th>
+            <th>Ngày sinh</th>
+            <th>Vai trò</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
+          <tr v-for="(user, index) in users" :key="user.id">
+            <td class="text-center">{{ index+1 }}</td>
             <td class="text-center">
               <b-img v-if="user.hoSo.avatar" :src="`/${user.hoSo.avatar}`" rounded="circle" style="width: 50px;" />
               <span v-else>No Avatar</span>

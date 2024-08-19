@@ -13,7 +13,6 @@
             id="userNameInput"
             v-model="username"
             type="text"
-            required
             :placeholder="placeholderUserName"
           ></b-form-input>
         </b-form-group>
@@ -23,7 +22,6 @@
             id="birthDateInput"
             v-model="birthdate"
             type="date"
-            required
             :placeholder="placeholderBirthDate"
             :max="maxDate"
           ></b-form-input>
@@ -34,8 +32,9 @@
             id="accountInput"
             v-model="account"
             type="text"
-            required
             :placeholder="placeholderAccount"
+            @blur="validateAccount"
+            @input="validateAccount"
           ></b-form-input>
         </b-form-group>
 
@@ -44,7 +43,6 @@
             id="passwordInput"
             v-model="password"
             type="password"
-            required
             :placeholder="placeholderPassword"
           ></b-form-input>
         </b-form-group>
@@ -54,7 +52,6 @@
             id="confirmPasswordInput"
             v-model="confirmPassword"
             type="password"
-            required
             :placeholder="placeholderConfirmPassword"
           ></b-form-input>
         </b-form-group>
@@ -75,6 +72,7 @@
 
 <script>
 import '@/assets/css/responsive.css'; 
+import { validateAccount } from '../common/utils'
 export default {
   props: {
     title: {
@@ -137,31 +135,64 @@ export default {
       account: '',
       password: '',
       confirmPassword: '',
-      oldPassword: '',
       maxDate: new Date().toISOString().split('T')[0],
       errorMessage: '',
     };
   },
   methods: {
+    validateAccount() {
+      this.errorMessage = validateAccount(this.account);
+    },
     onSubmit() {
+      this.validateAccount();
+      if (this.errorMessage) {
+        return;
+      }
       let data = {
         account: this.account,
         password: this.password,
         username: this.username,
         birthdate: this.birthdate
       };
+
+      this.errorMessage = '';
+
+      if (this.showUsername && !this.username) {
+        this.showError('Họ tên là bắt buộc.');
+        return;
+      }
+
+      if (!this.account) {
+        this.showError('Tài khoản là bắt buộc.');
+        return;
+      }
+
+      if (!this.password) {
+        this.showError('Mật khẩu là bắt buộc.');
+        return;
+      }
+
+      if (this.showBirthdate && !this.birthdate) {
+        this.showError('Ngày sinh là bắt buộc.');
+        return;
+      }
+
+      if (this.showConfirmPassword && this.password !== this.confirmPassword) {
+        this.showError('Mật khẩu xác nhận không khớp.');
+        return;
+      }
+
       if (this.showConfirmPassword) {
         data.confirmPassword = this.confirmPassword;
       }
-      if (this.showOldPassword) {
-        data.oldPassword = this.oldPassword;
-      }
+
       this.$emit('submit', data);
     },
+
     showError(message) {
       this.errorMessage = message;
     }
-  },
+  }
 };
 </script>
 
@@ -169,7 +200,6 @@ export default {
 .card-responsive-form-auth {
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
 }
 
 .b-form-group {

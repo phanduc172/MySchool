@@ -1,14 +1,11 @@
 <template>
   <b-container class="my-4" style="padding-top: 80px;">
     <b-row>
-      <b-col lg="12">
-        <teacher-list/>
+      <b-col lg="6">
+        <dashboard-chart/>
       </b-col>
-      <b-col lg="12" class="mt-5">
-        <student-list />
-      </b-col>
-      <b-col lg="12" class="mt-5">
-        <user-list />
+      <b-col lg="6">
+        <dashboard-chart/>
       </b-col>
     </b-row>
   </b-container>
@@ -18,7 +15,8 @@
 
 import StudentList from '../components/student/StudentList.vue';
 import TeacherList from '../components/teacher/TeacherList.vue';
-import UserList from '../components/UserList.vue';
+import UserList from '../components/user/UserList.vue';
+import DashboardChart from '../components/DashboardChart.vue';
 import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
@@ -29,7 +27,7 @@ export default {
     };
   },
   components: {
-    TeacherList,StudentList,UserList,
+    TeacherList,StudentList,UserList,DashboardChart
   },
   computed: {
     ...mapState([])

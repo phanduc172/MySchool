@@ -1,5 +1,5 @@
 <template>
-  <b-container class="my-4" fluid style="padding-top: 80px;">
+  <b-container class="my-4" fluid style="padding-top: 45px;">
     <b-row>
       <b-col lg="12">
         <teacher-list />

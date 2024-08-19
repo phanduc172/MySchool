@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import AuthForm from '@/components/AuthForm.vue';
+import AuthForm from '@/components/auth/AuthForm.vue';
 import { mapActions } from 'vuex';
 import { showErrorMessage, showSuccessMessage } from '@/store/ui/ConfirmDelete';
 

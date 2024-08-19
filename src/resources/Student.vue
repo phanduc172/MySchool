@@ -24,9 +24,9 @@
             Thêm
           </b-button>
         </div>
-        <student-list :students="filteredStudents" />
       </b-col>
     </b-row>
+    <student-list :students="filteredStudents" v-show="!showForm" />
   </b-container>
 </template>
 

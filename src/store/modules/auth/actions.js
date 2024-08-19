@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { API_ENDPOINTS } from '@/api/api';
+import { trimUserData } from '../../../components/common/utils'
 
 export default {
   async registerUser({ commit }, userData) {
-    const response = await axios.post(API_ENDPOINTS.NGUOI_DUNG, userData);
+    const trimmedUserData = trimUserData(userData);
+    const response = await axios.post(API_ENDPOINTS.NGUOI_DUNG, trimmedUserData);
     const user = response.data;
     commit('ADD_USER', user);
     commit('SET_USER', user);

@@ -6,13 +6,14 @@
 @media (max-width: 576px) {
     .card-responsive-form-auth {
         width: 90%;
-        max-width: 400px;
+        /* max-width: 400px; */
     }
 }
   
 @media (min-width: 576px) {
     .card-responsive-form-auth {
-        max-width: 400px;
+        /* max-width: 400px; */
+        width: 100%;
     }
 }
 
