@@ -5,7 +5,9 @@
         <div class="d-flex justify-content-between mb-3">
           <input
             type="text"
-            placeholder="Tìm kiếm giáo viên..."
+            v-model="searchQuery"
+            @input="searchTeachers"
+            placeholder="Tìm kiếm giáo viên theo tên..."
           />
           <b-button @click="showForm" variant="primary">
             Thêm
@@ -41,6 +43,7 @@ export default {
     return {
       isEditing: false,
       selectedTeacher: null,
+      searchQuery: '',
     };
   },
   components: {
@@ -48,16 +51,23 @@ export default {
     TeacherForm,
   },
   computed: {
-    ...mapState('teacher', ['showTeacherForm']),
+    ...mapState('teacher', ['teachers','showTeacherForm']),
   },
   methods: {
-    ...mapActions('teacher', ['fetchTeachers', 'confirmDeleteTeacher', 'addTeacher', 'updateTeacher', 'closeTeacherForm']),
+    ...mapActions('teacher', ['fetchTeachers', 'confirmDeleteTeacher', 'addTeacher', 'updateTeacher', 'searchTeachers', 'closeTeacherForm']),
     
     showForm() {
       this.$router.push('/manager/teacher/create');
       this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', true);
       this.isEditing = false;
       this.selectedTeacher = null;
+    },
+
+    async searchTeachers() {
+      console.log("Searching for:", this.searchQuery);
+      await this.$store.dispatch("teacher/searchTeachers", {
+        ten: this.searchQuery
+      });
     },
     
     async handleSave() {
@@ -83,7 +93,7 @@ export default {
     },
   },
   created() {
-    this.fetchTeachers();
+    this.fetchTeachers(); 
   },
 };
 </script>

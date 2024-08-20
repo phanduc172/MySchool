@@ -89,6 +89,7 @@ export default {
 </script>
 
 
+
 <style scoped>
   .table th {
     text-align: center;
@@ -96,12 +97,28 @@ export default {
   }
 
   .table-responsive {
-    overflow-x: scroll;
+    overflow-x: auto;
   }
 
   .table td, .table th {
-    white-space: nowrap;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
+
+  .table td {
+    max-width: 150px;
+  }
+
+  .table td, .table th {
+    word-break: break-word;
+  }
+
+  .table th {
+    text-align: center;
+    font-weight: bold;
+  }
+
   .b-card {
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

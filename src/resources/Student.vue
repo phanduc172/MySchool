@@ -77,7 +77,7 @@ export default {
       this.$router.push('/manager/student');
     },
     showAddForm() {
-      this.isEditing = false;  // Đặt isEditing thành false khi thêm mới
+      this.isEditing = false;
       this.$store.commit("student/SET_SHOW_FORM", true);
       this.$router.push('/manager/student/create');
     },
