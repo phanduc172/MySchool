@@ -1,10 +1,7 @@
 <template>
   <b-container class="my-4" style="padding-top: 80px;">
     <b-row>
-      <b-col lg="6">
-        <dashboard-chart/>
-      </b-col>
-      <b-col lg="6">
+      <b-col lg="12">
         <dashboard-chart/>
       </b-col>
     </b-row>

@@ -6,7 +6,7 @@
           <tr>
             <th style="width: 5%;">STT</th>
             <th>Ảnh đại diện</th>
-            <th>Họ tên</th>
+            <th style="width: 200px">Họ tên</th>
             <th>Ngày sinh</th>
             <th>Chuyên môn</th>
             <th>Lớp phụ trách</th>

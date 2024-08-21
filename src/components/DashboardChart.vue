@@ -1,6 +1,7 @@
 <template>
     <div>
       <apexchart
+        v-if="loading==true"
         type="bar"
         :options="chartOptions"
         :series="series"
@@ -18,6 +19,7 @@ import axios from 'axios';
     },
     data() {
         return {
+            loading:false,
         series: [{
             name: 'Số lượng',
             data: []
@@ -60,16 +62,18 @@ import axios from 'axios';
         async fetchData() {
         const response = await axios.get('http://localhost:3000/api/tong-so');
         const data = response.data;
+        console.log(data);
         this.series[0].data = [
         data.tongHocSinh,
         data.tongGiaoVien,
         data.tongNguoiDung,
         data.tongSo,
         ];
+        this.loading=true
         }
     },
-    mounted() {
-        this.fetchData();
+    async created() {
+       await this.fetchData();
     }
 };
 </script>

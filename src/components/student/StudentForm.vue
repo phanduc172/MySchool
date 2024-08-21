@@ -1,5 +1,5 @@
 <template>
-  <b-card :title="isEditing ? 'Sửa học sinh' : 'Thêm học sinh'">
+  <b-card :title="isEditing ? 'Sửa học sinh' : 'Thêm học sinh'" class="form-container">
     <b-form @submit.prevent="handleSubmit">
       <b-form-group label="Họ tên" label-for="ten">
         <b-form-input
@@ -52,7 +52,7 @@
         <b-button type="submit" variant="primary">
           {{ isEditing ? 'Cập nhật' : 'Thêm mới' }}
         </b-button>
-        <b-button class="ml-3" @click="cancel" variant="secondary">
+        <b-button class="ml-3" @click="cancel" variant="outline-secondary">
           Hủy
         </b-button>
       </b-form-group>
@@ -122,3 +122,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .form-container {
+      width: 50%;
+      max-width: 600px;
+      margin: 0 auto;
+  }
+</style>

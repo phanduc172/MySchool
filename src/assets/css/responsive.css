@@ -1,20 +1,28 @@
+/* Responsive form login and register */
 .card-responsive-form-auth {
     width: 100%;
     max-width: 700px;
 }
 
+.form-container {
+    width: 50%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+    .card-responsive-form-auth {
+        width: 100%;
+    }   
+}
+
 @media (max-width: 576px) {
     .card-responsive-form-auth {
         width: 90%;
-        /* max-width: 400px; */
     }
-}
-  
-@media (min-width: 576px) {
-    .card-responsive-form-auth {
-        /* max-width: 400px; */
-        width: 100%;
-    }
+    .img-auth {
+        display: none;
+    };
 }
 
 @media (min-width: 768px) {
@@ -22,6 +30,13 @@
         max-width: 500px;
     }
 }
+
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%;
+    }
+}
+
 @media (min-width: 992px) {
     .card-responsive-form-auth {
         max-width: 500px;

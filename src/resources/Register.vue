@@ -23,22 +23,18 @@ export default {
         showErrorMessage('Mật khẩu không khớp!');
         return;
       }
-      try {
-        await this.registerUser({
-          tenTaiKhoan: account,
-          matKhau: password,
-          vaiTro: 'student',
-          hoSo: {
-            hoTen: username,
-            ngaySinh: birthdate,
-            avatar: 'avatar.jpg',
-          },
-        });
-        this.$router.push('/dashboard');
-        showSuccessMessage('Đăng ký thành công!');
-      } catch (error) {
-        showErrorMessage('Đăng ký thất bại! Vui lòng thử lại.');
-      }
+      await this.registerUser({
+        tenTaiKhoan: account,
+        matKhau: password,
+        vaiTro: 'student',
+        hoSo: {
+          hoTen: username,
+          ngaySinh: birthdate,
+          avatar: 'avatar.jpg',
+        },
+      });
+      this.$router.push('/login');
+      showSuccessMessage('Đăng ký thành công!');
     },
   },
 };

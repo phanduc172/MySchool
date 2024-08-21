@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import UserMenu from "../components/user/UserMenu.vue";
 import UserDetail from '../components/user/UserDetail.vue';
 import ChangePassword from '../components/auth/ChangePassword.vue';
@@ -21,7 +20,6 @@ export default {
     ChangePassword,
   },
   computed: {
-    ...mapGetters("auth", ["name", "age"]),
     isProfile() {
       return this.$route.name === 'profile';
     }

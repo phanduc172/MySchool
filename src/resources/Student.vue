@@ -10,18 +10,19 @@
             placeholder="Tìm kiếm học sinh..."
           />
           <b-button @click="showAddForm" variant="primary">
-            Thêm
+            Tạo mới
           </b-button>
         </div>
       </b-col>
     </b-row>
     <b-row v-if="showForm" class="mb-5">
-      <b-col lg="12">
+      <b-col lg="12" class="d-flex justify-content-center">
         <student-form
           :studentData="student"
           :isEditing="isEditing"
           @save="handleFormSave"
           @cancel="cancel"
+          class="form-container"
         />
       </b-col>
     </b-row>
@@ -32,6 +33,7 @@
     </b-row>
   </b-container>
 </template>
+
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
@@ -124,6 +126,7 @@ export default {
   .table th {
     white-space: nowrap;
   }
+
 
   input[type="text"] {
     width: 50%;

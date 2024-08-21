@@ -1,5 +1,5 @@
 <template>
-  <b-card :title="isEditing ? 'Sửa giáo viên' : 'Thêm giáo viên'">
+  <b-card :title="isEditing ? 'Sửa giáo viên' : 'Thêm giáo viên'" class="form-container">
     <b-form @submit.prevent="handleSubmit">
       <b-form-group label="Họ tên" label-for="ten">
         <b-form-input id="ten" v-model="teacher.ten" required></b-form-input>
@@ -16,14 +16,21 @@
       </b-form-group>
 
       <b-form-group label="Chuyên môn" label-for="chuyenMon">
-        <b-form-input id="chuyenMon" v-model="teacher.chuyenMon"></b-form-input>
+        <b-form-select
+          id="chuyenMon"
+          v-model="teacher.chuyenMon"
+          :options="specialtyOptions"
+          required
+        ></b-form-select>
       </b-form-group>
 
       <b-form-group label="Lớp phụ trách" label-for="lopPhuTrach">
-        <b-form-input
+        <b-form-select
           id="lopPhuTrach"
           v-model="teacher.lopPhuTrach"
-        ></b-form-input>
+          :options="classOptions"
+          required
+        ></b-form-select>
       </b-form-group>
 
       <b-form-group label="Số năm kinh nghiệm" label-for="soNamKinhNghiem">
@@ -31,6 +38,7 @@
           id="soNamKinhNghiem"
           v-model="teacher.soNamKinhNghiem"
           type="number"
+          min="0"
         ></b-form-input>
       </b-form-group>
 
@@ -83,29 +91,48 @@ export default {
   },
   data() {
     return {
+      classes: [],
+      specialties: [],
       teacher: { ...this.teacherData },
       maxDate: getMaxDate(),
     };
   },
   computed: {
     ...mapState('teacher', ['teachers']),
+    classOptions() {
+      return this.classes.map(lop => ({
+        value: lop.tenLop,
+        text: lop.tenLop
+      }));
+    },
+    specialtyOptions() {
+      return this.specialties.map(mon => ({
+        value: mon.tenChuyenMon,
+        text: mon.tenChuyenMon
+      }));
+    },
   },
   methods: {
     ...mapActions('teacher', ['addTeacher', 'updateTeacher']),
-    
+    async fetchClasses() {
+      const response = await fetch('http://localhost:3000/api/lop-hoc');
+      const data = await response.json();
+      this.classes = data;
+    },
+    async fetchSpecialties() {
+      const response = await fetch('http://localhost:3000/api/chuyen-mon');
+      const data = await response.json();
+      this.specialties = data;
+    },
     async handleSubmit() {
-      try {
-        if (this.isEditing) {
-          await this.updateTeacher(this.teacher);
-          this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', false);
-        } else {
-          await this.addTeacher(this.teacher);
-          this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', false);
-        }
-        this.$emit('save');
-      } catch (error) {
-        console.error('Lỗi khi lưu giáo viên:', error);
+      if (this.isEditing) {
+        await this.updateTeacher(this.teacher);
+        this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', false);
+      } else {
+        await this.addTeacher(this.teacher);
+        this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', false);
       }
+      this.$emit('save');
     },
     cancel() {
       this.$store.commit('teacher/SET_SHOW_TEACHER_FORM', false);
@@ -119,10 +146,8 @@ export default {
   },
   created() {
     this.maxDate = getMaxDate();
+    this.fetchClasses();
+    this.fetchSpecialties();
   },
 };
 </script>
-
-<style scoped>
-/* Các kiểu CSS cụ thể cho form nếu cần */
-</style>

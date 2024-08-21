@@ -92,34 +92,22 @@ export default {
         this.errorMessage = "Mật khẩu xác nhận không khớp.";
         return;
       }
-
-      try {
-        const userId = this.user ? this.user.id : null;
-
-        if (!userId) {
-          this.errorMessage = "Người dùng không hợp lệ.";
-          return;
-        }
-
-        const response = await axios.put(
-          `http://localhost:3000/api/nguoi-dung/${userId}/mat-khau`,
-          {
-            matKhauCu: this.oldPassword,
-            matKhauMoi: this.newPassword,
-          }
-        );
-
-        showSuccessMessage();
-        
-        this.oldPassword = "";
-        this.newPassword = "";
-        this.confirmNewPassword = "";
-        
-      } catch (error) {
-        this.errorMessage = error.response
-          ? error.response.data.message
-          : "Có lỗi xảy ra!";
+      const userId = this.user ? this.user.id : null;
+      if (!userId) {
+        this.errorMessage = "Người dùng không hợp lệ.";
+        return;
       }
+      const response = await axios.put(
+        `http://localhost:3000/api/nguoi-dung/${userId}/mat-khau`,
+        {
+          matKhauCu: this.oldPassword,
+          matKhauMoi: this.newPassword,
+        }
+      );
+      showSuccessMessage();
+      this.oldPassword = "";
+      this.newPassword = "";
+      this.confirmNewPassword = "";
     },
   },
 };

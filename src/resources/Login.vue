@@ -22,13 +22,9 @@ export default {
   methods: {
     ...mapActions('auth', ['handleLogin']),
     async onSubmitLogin({ account, password }) {
-      try {
-        await this.handleLogin({ account, password });
-        showSuccessMessage();
-        this.$router.push('/dashboard');
-      } catch (error) {
-        this.$refs.authForm.showError(error.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
-      }
+      await this.handleLogin({ account, password });
+      this.$router.push('/dashboard');
+      showSuccessMessage();
     },
   },
 };

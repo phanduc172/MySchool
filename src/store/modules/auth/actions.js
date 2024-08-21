@@ -18,11 +18,9 @@ export default {
   async handleLogin({ commit }, { account, password }) {
       const response = await axios.get(API_ENDPOINTS.NGUOI_DUNG);
       const users = response.data;
-
       const user = users.find(user => 
         user.tenTaiKhoan === account && user.matKhau === password
       );
-
       if (user) {
         commit('SET_LOGGED_IN', true);
         commit('SET_USER', user);

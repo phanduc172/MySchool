@@ -1,14 +1,23 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center vh-100" style="padding-top: 56px;">
-    <b-card
+  <div
+    class="d-flex justify-content-center align-items-center vh-100"
+    style="padding-top: 56px"
+  >
+    <img class="img-auth" src="/login.png" alt="" style="width: 35%" />
+    <div
       :title="title"
-      class="card-responsive-form-auth"
+      class="card-responsive-form-auth p-4"
       header-bg-variant="primary"
       header-text-variant="white"
       header-tag="header"
     >
       <b-form @submit.prevent="onSubmit">
-        <b-form-group v-if="showUsername" id="userNameGroup" label="Họ tên" label-for="userNameInput">
+        <b-form-group
+          v-if="showUsername"
+          id="userNameGroup"
+          label="Họ tên"
+          label-for="userNameInput"
+        >
           <b-form-input
             id="userNameInput"
             v-model="username"
@@ -17,7 +26,12 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group v-if="showBirthdate" id="dateBirthDate" label="Ngày sinh" label-for="birthDateInput">
+        <b-form-group
+          v-if="showBirthdate"
+          id="dateBirthDate"
+          label="Ngày sinh"
+          label-for="birthDateInput"
+        >
           <b-form-input
             id="birthDateInput"
             v-model="birthdate"
@@ -26,11 +40,15 @@
             :max="maxDate"
           ></b-form-input>
         </b-form-group>
-        
-        <b-form-group id="accountGroup" label="Tài khoản" label-for="accountInput">
+
+        <b-form-group
+          id="accountGroup"
+          label="Tài khoản"
+          label-for="accountInput"
+        >
           <b-form-input
             id="accountInput"
-            v-model="account"
+            v-model.lazy="account"
             type="text"
             :placeholder="placeholderAccount"
             @blur="validateAccount"
@@ -38,7 +56,11 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="passwordGroup" label="Mật khẩu" label-for="passwordInput">
+        <b-form-group
+          id="passwordGroup"
+          label="Mật khẩu"
+          label-for="passwordInput"
+        >
           <b-form-input
             id="passwordInput"
             v-model="password"
@@ -47,7 +69,12 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group v-if="showConfirmPassword" id="confirmPasswordGroup" label="Xác nhận mật khẩu" label-for="confirmPasswordInput">
+        <b-form-group
+          v-if="showConfirmPassword"
+          id="confirmPasswordGroup"
+          label="Xác nhận mật khẩu"
+          label-for="confirmPasswordInput"
+        >
           <b-form-input
             id="confirmPasswordInput"
             v-model="confirmPassword"
@@ -60,19 +87,24 @@
           <b-link :to="linkTo">{{ linkText }}</b-link>
         </b-form-group>
 
-         <b-form-group v-if="errorMessage">
+        <b-form-group v-if="errorMessage">
           <b-alert variant="danger" show>{{ errorMessage }}</b-alert>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" block>{{ buttonText }}</b-button>
+        <b-button
+          type="submit"
+          style="background-color: rgb(24 148 235)"
+          block
+          >{{ buttonText }}</b-button
+        >
       </b-form>
-    </b-card>
+    </div>
   </div>
 </template>
 
 <script>
-import '@/assets/css/responsive.css'; 
-import { getMaxDate, validateAccount } from '../common/utils'
+import "@/assets/css/responsive.css";
+import { getMaxDate, validateAccount } from "../common/utils";
 export default {
   props: {
     title: {
@@ -81,27 +113,27 @@ export default {
     },
     placeholderUserName: {
       type: String,
-      default: 'Nhập họ tên',
+      default: "Nhập họ tên",
     },
     placeholderBirthDate: {
       type: String,
-      default: '',
+      default: "",
     },
     placeholderAccount: {
       type: String,
-      default: 'Nhập tài khoản',
+      default: "Nhập tài khoản",
     },
     placeholderPassword: {
       type: String,
-      default: 'Nhập mật khẩu',
+      default: "Nhập mật khẩu",
     },
     placeholderConfirmPassword: {
       type: String,
-      default: 'Nhập lại mật khẩu',
+      default: "Nhập lại mật khẩu",
     },
     buttonText: {
       type: String,
-      default: 'Xác nhận',
+      default: "Xác nhận",
     },
     showConfirmPassword: {
       type: Boolean,
@@ -113,11 +145,11 @@ export default {
     },
     linkTo: {
       type: String,
-      default: '',
+      default: "",
     },
     linkText: {
       type: String,
-      default: '',
+      default: "",
     },
     showBirthdate: {
       type: Boolean,
@@ -130,13 +162,13 @@ export default {
   },
   data() {
     return {
-      username: '',
-      birthdate: '',
-      account: '',
-      password: '',
-      confirmPassword: '',
+      username: "",
+      birthdate: "",
+      account: "",
+      password: "",
+      confirmPassword: "",
       maxDate: getMaxDate(),
-      errorMessage: '',
+      errorMessage: "",
     };
   },
   methods: {
@@ -152,52 +184,44 @@ export default {
         account: this.account,
         password: this.password,
         username: this.username,
-        birthdate: this.birthdate
+        birthdate: this.birthdate,
       };
-
-      this.errorMessage = '';
-
+      this.errorMessage = "";
       if (this.showUsername && !this.username) {
-        this.showError('Họ tên là bắt buộc.');
+        this.showError("Họ tên là bắt buộc.");
         return;
       }
-
       if (!this.account) {
-        this.showError('Tài khoản là bắt buộc.');
+        this.showError("Tài khoản là bắt buộc.");
         return;
       }
-
       if (!this.password) {
-        this.showError('Mật khẩu là bắt buộc.');
+        this.showError("Mật khẩu là bắt buộc.");
         return;
       }
-
       if (this.showBirthdate && !this.birthdate) {
-        this.showError('Ngày sinh là bắt buộc.');
+        this.showError("Ngày sinh là bắt buộc.");
         return;
       }
-
       if (this.showConfirmPassword && this.password !== this.confirmPassword) {
-        this.showError('Mật khẩu xác nhận không khớp.');
+        this.showError("Mật khẩu xác nhận không khớp.");
         return;
       }
-
       if (this.showConfirmPassword) {
         data.confirmPassword = this.confirmPassword;
       }
-
-      this.$emit('submit', data);
+      this.$emit("submit", data);
     },
-
     showError(message) {
       this.errorMessage = message;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .card-responsive-form-auth {
+  width: 90%;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
